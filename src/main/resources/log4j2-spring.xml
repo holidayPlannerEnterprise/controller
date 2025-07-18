@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="TRACE">
+  <Properties>
+    <Property name="LOG_PATH">controllerLogs</Property>
+  </Properties>
+
+  <Appenders>
+    <!-- Console Appender -->
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level : %c{3}.%M:%L [%t] - %msg%n"/>
+    </Console>
+
+    <!-- RollingFile Appender without Filter (gets everything) -->
+    <RollingFile name="LogFile" fileName="${LOG_PATH}/holidayPlannerLogs.log"
+                  filePattern="${LOG_PATH}/holidayPlannerLogs-%d{yyyy-MMM-dd}.log">
+      <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss.SSS} %-5level : %c.%M:%L [%t] - %msg%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="1"/>
+      </Policies>
+    </RollingFile>
+  </Appenders>
+
+  <Loggers>
+    <!-- Application logs -->
+    <Logger name="com.arpajit.holidayPlanner" level="TRACE" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="LogFile"/>
+    </Logger>
+
+    <!-- Hibernate SQL statement logs -->
+    <Logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="LogFile"/>
+    </Logger>
+
+    <!-- Hibernate SQL statement parameter logs -->
+    <Logger name="org.hibernate.orm.jdbc.bind" level="TRACE" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="LogFile"/>
+    </Logger>
+
+    <!-- Hibernate SQL statement parameter logs -->
+    <Logger name="org.springframework.web.servlet.mvc.method.annotation" level="ERROR" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="LogFile"/>
+    </Logger>
+
+    <!-- Default/root logger setup -->
+    <Root level="WARN">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="LogFile"/>
+    </Root>
+  </Loggers>
+</Configuration>
