@@ -21,18 +21,17 @@ public class HolidaysController {
     private KafkaTemplate<String, Object> kafkaTemplate;
 
     @Autowired
-    private ControllerProducer controllerProducer;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     @GetMapping("/allHolidayDetails")
     public void getAllHolidayDetails(HttpServletRequest httpRequest) throws Exception {
         logger.info("Requested {}: {}", httpRequest.getMethod(), httpRequest.getRequestURL());
         // Wrap in Kafka envelope
-        controllerProducer.setRequestType("GET_ALL_HOLIDAYS");
-        controllerProducer.setSourceService("controller-service");
-        controllerProducer.setTimestamp(LocalDateTime.now().toString());
+        ControllerProducer controllerProducer = new ControllerProducer(
+                                                        "GET_ALL_HOLIDAYS",
+                                                        "controller-service",
+                                                        LocalDateTime.now().toString(),
+                                                        null);
         // Send to Kafka
         kafkaTemplate.send("holidayplanner-creator", controllerProducer);
         logger.info("Sent Kafka envelope: {}", objectMapper.writeValueAsString(controllerProducer));
