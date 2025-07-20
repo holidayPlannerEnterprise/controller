@@ -11,8 +11,8 @@
     </Console>
 
     <!-- RollingFile Appender without Filter (gets everything) -->
-    <RollingFile name="LogFile" fileName="${LOG_PATH}/holidayPlannerLogs.log"
-                  filePattern="${LOG_PATH}/holidayPlannerLogs-%d{yyyy-MMM-dd}.log">
+    <RollingFile name="LogFile" fileName="${LOG_PATH}/holidayplannerLogs.log"
+                  filePattern="${LOG_PATH}/holidayplannerLogs-%d{yyyy-MMM-dd}.log">
       <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss.SSS} %-5level : %c.%M:%L [%t] - %msg%n"/>
       <Policies>
         <TimeBasedTriggeringPolicy interval="1"/>
@@ -22,7 +22,7 @@
 
   <Loggers>
     <!-- Application logs -->
-    <Logger name="com.arpajit.holidayPlanner" level="TRACE" additivity="false">
+    <Logger name="com.arpajit.holidayplanner" level="TRACE" additivity="false">
       <AppenderRef ref="Console"/>
       <AppenderRef ref="LogFile"/>
     </Logger>
