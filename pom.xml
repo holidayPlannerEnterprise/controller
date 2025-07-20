@@ -56,6 +56,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.arpajit.holidayplanner</groupId>
+			<artifactId>data</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
