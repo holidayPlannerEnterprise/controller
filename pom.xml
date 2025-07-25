@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.3</version>
+		<version>3.5.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.arpajit.holidayplanner</groupId>
@@ -46,18 +46,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
-			<version>3.5.3</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.arpajit.holidayplanner</groupId>
 			<artifactId>dto</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.arpajit.holidayplanner</groupId>
-			<artifactId>data</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 

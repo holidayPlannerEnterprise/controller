@@ -2,6 +2,7 @@
 <Configuration status="TRACE">
   <Properties>
     <Property name="LOG_PATH">controllerLogs</Property>
+    <Property name="FILE_NAME">appLogs</Property>
   </Properties>
 
   <Appenders>
@@ -11,8 +12,8 @@
     </Console>
 
     <!-- RollingFile Appender without Filter (gets everything) -->
-    <RollingFile name="LogFile" fileName="${LOG_PATH}/holidayplannerLogs.log"
-                  filePattern="${LOG_PATH}/holidayplannerLogs-%d{yyyy-MMM-dd}.log">
+    <RollingFile name="LogFile" fileName="${LOG_PATH}/${FILE_NAME}.log"
+                  filePattern="${LOG_PATH}/${FILE_NAME}-%d{yyyy-MMM-dd}.log">
       <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss.SSS} %-5level : %c.%M:%L [%t] - %msg%n"/>
       <Policies>
         <TimeBasedTriggeringPolicy interval="1"/>

@@ -15,8 +15,8 @@ import com.arpajit.holidayplanner.dto.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RestControllerAdvice
-public class HolidaysException {
-    private static final Logger logger = LoggerFactory.getLogger(HolidaysException.class);
+public class ControllerExceptions {
+    private static final Logger logger = LoggerFactory.getLogger(ControllerExceptions.class);
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ExceptionResponse> handleMethodNotSupported(HttpRequestMethodNotSupportedException e) {
         String methodUsed = e.getMethod();
