@@ -39,7 +39,7 @@ public class MainController {
 
         // Prepare topic message
         ProduceMessage messageDTO = new ProduceMessage(UUID.randomUUID().toString(),
-                                                    "GET_ALL_HOLIDAYS",
+                                                    "GET_ALL_HOLIDAY_DETAILS",
                                                     "com.arpajit.holidayplanner.controller.getAllHolidayDetails",
                                                     LocalDateTime.now().toString(),
                                                     null,
