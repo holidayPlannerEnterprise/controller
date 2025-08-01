@@ -6,12 +6,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.header.internals.RecordHeader;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-// import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.kafka.requestreply.RequestReplyFuture;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,9 +27,6 @@ public class MainController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    // @Autowired
-    // private KafkaTemplate<String, String> kafkaTemplate;
-
     @Autowired
     private ReplyingKafkaTemplate<String, String, String> replyingKafkaTemplate;
 
@@ -38,25 +36,31 @@ public class MainController {
     @GetMapping("/allHolidayDetails")
     public ResponseEntity<String> getAllHolidayDetails(HttpServletRequest httpRequest) throws Exception {
         logger.info("Requested {}: {}", httpRequest.getMethod(), httpRequest.getRequestURL());
+
         // Prepare topic message
-        ProduceMessage message = new ProduceMessage(UUID.randomUUID().toString(),
+        ProduceMessage messageDTO = new ProduceMessage(UUID.randomUUID().toString(),
                                                     "GET_ALL_HOLIDAYS",
                                                     "com.arpajit.holidayplanner.controller.getAllHolidayDetails",
                                                     LocalDateTime.now().toString(),
                                                     null,
-                                                    "IN_QUEUE",
+                                                    "CREATOR_SENT",
                                                     null);
-        String payload = objectMapper.writeValueAsString(message);
-        // Send to Kafka
-        String dataServiceResponse = dataService.addAudit(payload);
-        logger.info("Response from Data Sercive on adding audit: ", dataServiceResponse);
-        ProducerRecord<String, String> record = new ProducerRecord<>("holidayplanner-creator", payload);
-        logger.info("Sending Kafka envelope: {}", payload);
-        // kafkaTemplate.send("holidayplanner-creator", payload);
-        RequestReplyFuture<String, String, String> responsePayload = replyingKafkaTemplate.sendAndReceive(record);
-        logger.info("Sent Kafka envelope: {}", payload);
-        ConsumerRecord<String, String> response = responsePayload.get(10, TimeUnit.SECONDS);
-        dataService.updateAudit(message.getTraceId(), "SUCCESS", null);
+        String message = objectMapper.writeValueAsString(messageDTO);
+
+        // Preparing Kafka payload
+        ProducerRecord<String, String> payload = new ProducerRecord<>("holidayplanner-creator", message);
+        payload.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, "holidayplanner-controller".getBytes()));
+
+        // Sending to Creator topic
+        logger.info("Sending Kafka message: {}", message);
+        RequestReplyFuture<String, String, String> responsePayload = replyingKafkaTemplate.sendAndReceive(payload);
+        dataService.addAudit(message);
+        logger.info("Dropped successfully into Creator topic");
+
+        // Comsuming Sync Response from Controller topic
+        ConsumerRecord<String, String> response = responsePayload.get(15, TimeUnit.SECONDS);
+        dataService.updateAudit(messageDTO.getTraceId(), "SUCCESS", null);
+        logger.info("Successfully received data from Creator topic: \n{}", response.value());
         return ResponseEntity.ok(response.value());
     }
 }
