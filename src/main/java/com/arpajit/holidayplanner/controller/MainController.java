@@ -56,6 +56,7 @@ public class MainController {
         RequestReplyFuture<String, String, String> responsePayload = replyingKafkaTemplate.sendAndReceive(record);
         logger.info("Sent Kafka envelope: {}", payload);
         ConsumerRecord<String, String> response = responsePayload.get(10, TimeUnit.SECONDS);
+        dataService.updateAudit(message.getTraceId(), "SUCCESS", null);
         return ResponseEntity.ok(response.value());
     }
 }
