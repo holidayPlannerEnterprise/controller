@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.arpajit.holidayplanner.dto.*;
+import com.arpajit.holidayplanner.controller.dto.KafkaMessage;
 
 @RestController
 @RequestMapping("/holidayplanner")

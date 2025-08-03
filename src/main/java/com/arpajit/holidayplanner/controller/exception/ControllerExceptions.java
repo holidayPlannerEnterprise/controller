@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.arpajit.holidayplanner.dto.*;
+import com.arpajit.holidayplanner.controller.dto.ExceptionResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RestControllerAdvice
