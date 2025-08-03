@@ -1,5 +1,12 @@
-{"properties": [{
-  "name": "spring.kafka.listener.reply-topic",
-  "type": "java.lang.String",
-  "description": "reply-topic definition"
-}]}
+{"properties": [
+  {
+    "name": "spring.kafka.listener.reply-topic",
+    "type": "java.lang.String",
+    "description": "reply-topic definition"
+  },
+  {
+    "name": "dataservice.domain",
+    "type": "java.lang.String",
+    "description": "data service domain"
+  }
+]}

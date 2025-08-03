@@ -2,6 +2,7 @@ package com.arpajit.holidayplanner.controller;
 
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -9,7 +10,9 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ControllerDataServComm {
     private static final Logger logger = LoggerFactory.getLogger(ControllerDataServComm.class);
-    private static final String dsDomain = "http://localhost:8000/dataservice";
+
+    @Value("${dataservice.domain}")
+    private String dsDomain;
 
     @Autowired
     private RestTemplate restTemplate;
